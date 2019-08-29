@@ -2,12 +2,15 @@ import React from 'react';
 import {
   Jumbotron } from 'reactstrap';
 
+  import PreviewList from './PreviewList';
+
 function WelcomeContent(props) {
   // If authenticated, greet the user
   if (props.isAuthenticated) {
     return (
       <div>
         <h1 style={{textAlign: "center"}}>Monthly Payslip Request</h1>
+        
       </div>
     );
   }

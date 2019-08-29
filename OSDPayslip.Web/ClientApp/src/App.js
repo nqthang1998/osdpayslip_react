@@ -28,7 +28,6 @@ class App extends Component {
     
     this.state = {
       isAuthenticated: (user !== null),
-      loginLink: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?response_type=id_token&scope=user.read%20calendars.read%20openid%20profile&client_id=ab5572ca-cca6-46c5-86c1-8653758e75ec&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&state=0247d111-db00-49b4-86ed-f19766d848af&nonce=8e1f3b6f-f244-4648-85d7-7ea3515c99d8&client_info=1&x-client-SKU=MSAL.JS&x-client-Ver=1.1.3&prompt=select_account&client-request-id=5d72904a-6942-4162-a4f4-0e9842653b93&response_mode=fragment",
       user: {},
       error: null
     };
