@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PayslipReport from './PayslipReport'
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import ListPayslip from './ListPayslip'
 
-import PreviewListTest from './ListPayslip';
 class PreviewList extends Component {
 
     render() {     
@@ -10,7 +10,7 @@ class PreviewList extends Component {
             <Router>
               
                 <Route path="/payslip" component={PayslipReport} />
-                <Route exact path="/" component={PreviewListTest} />
+                <Route exact path="/" component={ListPayslip} />
                 
             </Router>
 

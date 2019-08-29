@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import PreviewList from './Authentication/PreviewList';
+import PreviewList from './Component/PreviewList';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

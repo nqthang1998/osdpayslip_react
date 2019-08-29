@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Jumbotron } from 'reactstrap';
 
-  import PreviewList from './PreviewList';
+  import PreviewList from '../Component/PreviewList';
 
 function WelcomeContent(props) {
   // If authenticated, greet the user

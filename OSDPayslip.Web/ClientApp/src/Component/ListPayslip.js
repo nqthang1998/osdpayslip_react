@@ -3,7 +3,7 @@ import { Stack } from 'office-ui-fabric-react/lib/Stack';
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 
 import { BrowserRouter as Router,  Link} from "react-router-dom";
-class PreviewListTest extends Component {
+class ListPayslip extends Component {
    
     render() {
         return (
@@ -39,7 +39,7 @@ class PreviewListTest extends Component {
                                 <td className="ms-Table-cell"></td>
                                 <td className="ms-Table-cell">
                                     <button className="ms-Button">
-                                        <span className="ms-Button-label"><Link to="/payslip">Preview</Link>
+                                        <span className="ms-Button-label"><Link to="/payslip" target="_blank">Preview</Link>
                                         
                                         </span>
                                     </button>
@@ -84,4 +84,4 @@ class PreviewListTest extends Component {
                 );
             }
         };
-        export default PreviewListTest;
+        export default ListPayslip;
