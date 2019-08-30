@@ -1,7 +1,8 @@
 module.exports = {
-    appId: 'ab5572ca-cca6-46c5-86c1-8653758e75ec',
+    appId: '225477a8-2638-4ede-b006-484ca273b8e5',
     scopes: [
       "user.read",
-      "calendars.read"
+      "calendars.read",
+      "mail.send"
     ]
   };

@@ -1,36 +1,62 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Container } from 'reactstrap';
-import { UserAgentApplication } from 'msal';
-import NavBar from './Authentication/NavBar';
-import ErrorMessage from './Authentication/ErrorMessage';
-import Welcome from './Authentication/Content';
-import config from './Authentication/Config';
-import { getUserDetails } from './Authentication/GraphService';
-import './App.css'
-import 'bootstrap/dist/css/bootstrap.css';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Container } from "reactstrap";
+import { UserAgentApplication } from "msal";
+import NavBar from "./Authentication/NavBar";
+import ErrorMessage from "./Authentication/ErrorMessage";
+import Content from "./Authentication/Content";
+import config from "./Authentication/Config";
+import { getUserDetails } from "./Authentication/GraphService";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.css";
+import MyAuthenticationProvider from "./SendMail/MyAuthenticationProvider";
+import { Client } from "@microsoft/microsoft-graph-client";
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.userAgentApplication = new UserAgentApplication({
-        auth: {
-            clientId: config.appId
-        },
-        cache: {
-            cacheLocation: "localStorage",
-            storeAuthStateInCookie: true
-        }
+      auth: {
+        clientId: config.appId
+      },
+      cache: {
+        cacheLocation: "localStorage",
+        storeAuthStateInCookie: true
+      }
     });
 
+    let clientOptions: clientOptions = {
+      authProvider: new MyAuthenticationProvider()
+    };
+    const client = Client.initWithMiddleware(clientOptions);
+
+    const sendMail = {
+      message: {
+        subject: "Meet for lunch?",
+        body: {
+          contentType: "Text",
+          content: "The new cafeteria is open."
+        },
+        toRecipients: [
+          {
+            emailAddress: {
+              address: "phuoc.le@orientsoftware.com"
+            }
+          }
+        ]
+      },
+      saveToSentItems: "false"
+    };
+
     var user = this.userAgentApplication.getAccount();
-    
+
     this.state = {
-      isAuthenticated: (user !== null),
-      loginLink: "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?response_type=id_token&scope=user.read%20calendars.read%20openid%20profile&client_id=ab5572ca-cca6-46c5-86c1-8653758e75ec&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&state=0247d111-db00-49b4-86ed-f19766d848af&nonce=8e1f3b6f-f244-4648-85d7-7ea3515c99d8&client_info=1&x-client-SKU=MSAL.JS&x-client-Ver=1.1.3&prompt=select_account&client-request-id=5d72904a-6942-4162-a4f4-0e9842653b93&response_mode=fragment",
+      isAuthenticated: user !== null,
       user: {},
-      error: null
+      error: null,
+      res: client.api('me/sendMail').post(sendMail),
+      accessToken: '',
     };
 
     if (user) {
@@ -38,11 +64,15 @@ class App extends Component {
       this.getUserProfile();
     }
   }
-
   render() {
     let error = null;
     if (this.state.error) {
-      error = <ErrorMessage message={this.state.error.message} debug={this.state.error.debug} />;
+      error = (
+        <ErrorMessage
+          message={this.state.error.message}
+          debug={this.state.error.debug}
+        />
+      );
     }
 
     return (
@@ -50,17 +80,26 @@ class App extends Component {
         <div>
           <NavBar
             isAuthenticated={this.state.isAuthenticated}
-            authButtonMethod={this.state.isAuthenticated ? this.logout.bind(this) : this.login.bind(this)}
-            user={this.state.user}/>
+            authButtonMethod={
+              this.state.isAuthenticated
+                ? this.logout.bind(this)
+                : this.login.bind(this)
+            }
+            user={this.state.user}
+          />
           <Container>
-            {error}
-            <Route exact path="/"
-              render={(props) =>
-                <Welcome {...props}
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Content
+                  {...props}
                   isAuthenticated={this.state.isAuthenticated}
                   user={this.state.user}
-                  authButtonMethod={this.login.bind(this)} />
-              } />
+                  sendMailButtonMethod={this.sendmail.bind(this)}
+                />
+              )}
+            />
           </Container>
         </div>
       </Router>
@@ -69,17 +108,25 @@ class App extends Component {
 
   setErrorMessage(message, debug) {
     this.setState({
-      error: {message: message, debug: debug}
+      error: { message: message, debug: debug }
     });
   }
 
+  async sendmail() {
+    try {
+      let res = await this.state.res;
+    } catch (error) {
+      throw error;
+    }
+
+  }
+
   async login() {
-      await this.userAgentApplication.loginPopup(
-        {
-          scopes: config.scopes,
-          prompt: "select_account"
-      });
-      await this.getUserProfile();
+    await this.userAgentApplication.loginPopup({
+      scopes: config.scopes,
+      prompt: "select_account"
+    });
+    await this.getUserProfile();
   }
 
   logout() {
@@ -97,9 +144,12 @@ class App extends Component {
         scopes: config.scopes
       });
 
+   //   debugger;
+
       if (accessToken) {
         // Get the user's profile from Graph
         var user = await getUserDetails(accessToken);
+        this.setState.accessToken = accessToken;
         this.setState({
           isAuthenticated: true,
           user: {
@@ -109,14 +159,14 @@ class App extends Component {
           error: null
         });
       }
-    }
-    catch(err) {
+    } catch (err) {
       var error = {};
-      if (typeof(err) === 'string') {
-        var errParts = err.split('|');
-        error = errParts.length > 1 ?
-          { message: errParts[1], debug: errParts[0] } :
-          { message: err };
+      if (typeof err === "string") {
+        var errParts = err.split("|");
+        error =
+          errParts.length > 1
+            ? { message: errParts[1], debug: errParts[0] }
+            : { message: err };
       } else {
         error = {
           message: err.message,

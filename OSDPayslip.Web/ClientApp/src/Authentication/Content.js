@@ -8,6 +8,7 @@ function WelcomeContent(props) {
     return (
       <div>
         <h1 style={{textAlign: "center"}}>Monthly Payslip Request</h1>
+        <button onClick={props.sendMailButtonMethod}>Send Email</button>
       </div>
     );
   }
@@ -19,7 +20,7 @@ function WelcomeContent(props) {
           </React.Fragment>;
 }
 
-export default class Welcome extends React.Component {
+export default class Content extends React.Component {
   render() {
         // Only show body content if logged in
         let bodyContent = null;
@@ -34,7 +35,7 @@ export default class Welcome extends React.Component {
         <WelcomeContent
           isAuthenticated={this.props.isAuthenticated}
           user={this.props.user}
-          authButtonMethod={this.props.authButtonMethod} />
+          sendMailButtonMethod={this.props.sendMailButtonMethod} />
         {bodyContent}
       </Jumbotron>
     );
