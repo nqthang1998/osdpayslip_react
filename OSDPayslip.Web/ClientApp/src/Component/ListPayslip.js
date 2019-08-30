@@ -22,6 +22,7 @@ class ListPayslip extends Component {
                     </button>
                 </div>
                 <div>
+               
                     <table border="1" className="table-name" >
                         <tbody><tr className="ms-Table-row">
                             <td className="ms-Table-cell"> No</td>
@@ -78,7 +79,7 @@ class ListPayslip extends Component {
                                 <td className="ms-Table-cell">Type</td>
                             </tr>
                         </tbody></table>
-
+            
                 </div>
                 </div>
                 );
