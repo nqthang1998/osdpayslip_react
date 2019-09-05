@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OSDPayslip.Common\OSDPayslip.Common.csproj" />
+    <ProjectReference Include="..\OSDPayslip.Data\OSDPayslip.Data.csproj" />
+    <ProjectReference Include="..\OSDPayslip.Models\OSDPayslip.Models.csproj" />
+  </ItemGroup>
+
+</Project>
