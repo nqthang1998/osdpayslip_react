@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Collapse,
   Container,
@@ -11,26 +11,35 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem } from 'reactstrap';
-import '@fortawesome/fontawesome-free/css/all.css';
+  DropdownItem
+} from "reactstrap";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 function UserAvatar(props) {
   // If a user avatar is available, return an img tag with the pic
   if (props.user.avatar) {
-
-    return <React.Fragment>
-            <img
-            src={props.user.avatar} alt="user"
-            className="rounded-circle align-self-center mr-2"
-            style={{width: '32px'}}/>
-            </React.Fragment>;        
+    return (
+      <React.Fragment>
+        <img
+          src={props.user.avatar}
+          alt="user"
+          className="rounded-circle align-self-center mr-2"
+          style={{ width: "32px" }}
+        />
+      </React.Fragment>
+    );
   }
 
   // No avatar available, return a default icon
-  return <React.Fragment>
+  return (
+    <React.Fragment>
       <span>{props.user.email} </span>
-      <i className="far fa-user-circle fa-lg rounded-circle align-self-center mr-2" style={{width: '32px'}}></i>
-  </React.Fragment>;
+      <i
+        className="far fa-user-circle fa-lg rounded-circle align-self-center mr-2"
+        style={{ width: "32px" }}
+      ></i>
+    </React.Fragment>
+  );
 }
 
 function AuthNavItem(props) {
@@ -40,23 +49,34 @@ function AuthNavItem(props) {
     return (
       <UncontrolledDropdown>
         <DropdownToggle nav caret>
-          <UserAvatar user={props.user}/>
+          <UserAvatar user={props.user} />
         </DropdownToggle>
         <DropdownMenu right>
           <h5 className="dropdown-item-text mb-0">{props.user.displayName}</h5>
-          <p className="dropdown-item-text text-muted mb-0">{props.user.email}</p>
+          <p className="dropdown-item-text text-muted mb-0">
+            {props.user.email}
+          </p>
           <DropdownItem divider />
-          <DropdownItem onClick={props.authButtonMethod} style={{fontWeight: "bold"}}>Log Out</DropdownItem>
+          <DropdownItem
+            onClick={props.authButtonMethod}
+            style={{ fontWeight: "bold" }}
+          >
+            Log Out
+          </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>
-
     );
   }
 
   // Not authenticated, return a sign in link
   return (
     <NavItem>
-      <NavLink onClick={props.authButtonMethod} style={{cursor: 'pointer', fontWeight: "bold"}}>Log In</NavLink>
+      <NavLink
+        onClick={props.authButtonMethod}
+        style={{ cursor: "pointer", fontWeight: "bold" }}
+      >
+        Log In
+      </NavLink>
     </NavItem>
   );
 }
@@ -82,16 +102,22 @@ export default class NavBar extends React.Component {
       <div>
         <Navbar color="dark" dark expand="md" fixed="top">
           <Container>
-            <NavbarBrand href="/"><img alt="" src="https://www.orientsoftware.net/Themes/OrientSoftwareTheme/Content/Images/header/osd-logo-white.png" style={{width: "82%"}}/></NavbarBrand>
+            <NavbarBrand href="/">
+              <img
+                alt=""
+                src="https://www.orientsoftware.net/Themes/OrientSoftwareTheme/Content/Images/header/osd-logo-white.png"
+                style={{ width: "82%" }}
+              />
+            </NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="mr-auto" navbar>
-              </Nav>
+              <Nav className="mr-auto" navbar></Nav>
               <Nav className="justify-content-end" navbar>
                 <AuthNavItem
                   isAuthenticated={this.props.isAuthenticated}
                   authButtonMethod={this.props.authButtonMethod}
-                  user={this.props.user} />
+                  user={this.props.user}
+                />
               </Nav>
             </Collapse>
           </Container>

@@ -6,11 +6,9 @@ import NavBar from "./Authentication/NavBar";
 import ErrorMessage from "./Authentication/ErrorMessage";
 import Content from "./Authentication/Content";
 import config from "./Authentication/Config";
-import { getUserDetails } from "./Authentication/GraphService";
+import { getUserDetails, sendMail } from "./Authentication/GraphService";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
-import MyAuthenticationProvider from "./SendMail/MyAuthenticationProvider";
-import { Client } from "@microsoft/microsoft-graph-client";
 
 class App extends Component {
   constructor(props) {
@@ -26,37 +24,14 @@ class App extends Component {
       }
     });
 
-    let clientOptions: clientOptions = {
-      authProvider: new MyAuthenticationProvider()
-    };
-    const client = Client.initWithMiddleware(clientOptions);
-
-    const sendMail = {
-      message: {
-        subject: "Meet for lunch?",
-        body: {
-          contentType: "Text",
-          content: "The new cafeteria is open."
-        },
-        toRecipients: [
-          {
-            emailAddress: {
-              address: "phuoc.le@orientsoftware.com"
-            }
-          }
-        ]
-      },
-      saveToSentItems: "false"
-    };
-
     var user = this.userAgentApplication.getAccount();
 
     this.state = {
       isAuthenticated: user !== null,
-      user: {},
+      user: user,
       error: null,
-      res: client.api('me/sendMail').post(sendMail),
-      accessToken: '',
+      accessToken: "",
+      response: null
     };
 
     if (user) {
@@ -88,6 +63,7 @@ class App extends Component {
             user={this.state.user}
           />
           <Container>
+          {error}
             <Route
               exact
               path="/"
@@ -112,14 +88,6 @@ class App extends Component {
     });
   }
 
-  async sendmail() {
-    try {
-      let res = await this.state.res;
-    } catch (error) {
-      throw error;
-    }
-
-  }
 
   async login() {
     await this.userAgentApplication.loginPopup({
@@ -133,6 +101,20 @@ class App extends Component {
     this.userAgentApplication.logout();
   }
 
+  async sendmail() {
+    try {
+      var accessToken = await window.msal.acquireTokenSilent({
+        scopes: config.scopes
+      });
+  
+      var response = await sendMail(accessToken);
+  
+      this.setState({response: response});
+    } catch(err) {
+      this.props.showError('ERROR', JSON.stringify(err));
+    }
+  }
+
   async getUserProfile() {
     try {
       // Get the access token silently
@@ -144,12 +126,13 @@ class App extends Component {
         scopes: config.scopes
       });
 
-   //   debugger;
-
+      //debugger;
       if (accessToken) {
+        this.setState({
+          accessToken: accessToken.accessToken
+        });
         // Get the user's profile from Graph
         var user = await getUserDetails(accessToken);
-        this.setState.accessToken = accessToken;
         this.setState({
           isAuthenticated: true,
           user: {
