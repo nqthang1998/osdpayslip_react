@@ -27,11 +27,17 @@ class App extends Component {
     var user = this.userAgentApplication.getAccount();
 
     this.state = {
+<<<<<<< HEAD
       isAuthenticated: user !== null,
       user: user,
       error: null,
       accessToken: "",
       response: null
+=======
+      isAuthenticated: (user !== null),
+      user: {},
+      error: null
+>>>>>>> 41205dacbfae06c16445201e786f2e4a412b6215
     };
 
     if (user) {

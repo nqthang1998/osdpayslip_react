@@ -2,13 +2,19 @@ import React from 'react';
 import {
   Jumbotron } from 'reactstrap';
 
+  import PreviewList from '../Component/PreviewList';
+
 function WelcomeContent(props) {
   // If authenticated, greet the user
   if (props.isAuthenticated) {
     return (
       <div>
         <h1 style={{textAlign: "center"}}>Monthly Payslip Request</h1>
+<<<<<<< HEAD
         <button onClick={props.sendMailButtonMethod}>Send Email</button>
+=======
+        
+>>>>>>> 41205dacbfae06c16445201e786f2e4a412b6215
       </div>
     );
   }
