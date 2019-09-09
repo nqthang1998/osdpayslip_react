@@ -63,32 +63,30 @@ namespace OSDPayslip.Service.Request
             return requestDetail;
         }
 
-        public void UpdateNoOfDeployee(int n, int id)
+        public int CreateNewRequest(int month, int count)
         {
-            var Request = GetById(id);
-            Request.NoOfDeployee = n;
-            var temp = _mapper.Map<RequestDetailViewModel, RequestDetail > (Request);
-            _requestDetailReponsitory.Update(temp);
-            _requestDetailReponsitory.Commit();
-        }
-
-        public int CreateNewRequest(int month)
-        {
-            RequestDetailViewModel requestDetail = new RequestDetailViewModel()
+            try
             {
-                NoOfDeployee = 0,
-                PayslipForMonth = month,
-                CreateDate = DateTime.Now,
-                ModifyDate = DateTime.Now,
-                CreateBy = "",
-                ModifyBy = "",
-                Status = 0
-            };
-            var temp = _mapper.Map<RequestDetailViewModel, RequestDetail>(requestDetail);
-            _requestDetailReponsitory.Add(temp);
-            _requestDetailReponsitory.Commit();
-            var top = GetAll().Max(x => x.Id);
-            return GetAll().Max(x => x.Id);
+                RequestDetailViewModel requestDetail = new RequestDetailViewModel()
+                {
+                    NoOfDeployee = count,
+                    PayslipForMonth = month,
+                    CreateDate = DateTime.Now,
+                    ModifyDate = DateTime.Now,
+                    CreateBy = "",
+                    ModifyBy = "",
+                    Status = 0
+                };
+                var temp = _mapper.Map<RequestDetailViewModel, RequestDetail>(requestDetail);
+                _requestDetailReponsitory.Add(temp);
+                _requestDetailReponsitory.Commit();
+                var top = GetAll().Max(x => x.Id);
+                return GetAll().Max(x => x.Id);
+            }
+            catch
+            {
+                return -1;
+            }
         }
     }
 }

@@ -1,0 +1,413 @@
+﻿@page
+@model OSDPayslip.Service.HandlePdf.DTO.InputPdfFile
+@{
+    var Model = Html.ViewData.Model;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Sarabun:300,700&display=swap" rel="stylesheet">
+    <title>OSD Payslip</title>
+    <style>
+        body {
+            padding: 50px;
+            font-family: "Sarabun", sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+        }
+
+        h1,
+        h2,
+        strong {
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 50px;
+            margin-bottom: 0;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-spacing: 0;
+            margin-bottom: 30px;
+        }
+
+            table td {
+                vertical-align: middle;
+                padding: 5px 15px;
+            }
+
+        .table {
+            border-right: 0.5px solid black;
+        }
+
+            .table thead td {
+                border-left: 0.5px solid black;
+                border-top: 0.5px solid black;
+                border-bottom: 0.5px solid black;
+            }
+
+                .table thead td:last-of-type {
+                    border-right: 0.5px solid black;
+                }
+
+            .table tbody td {
+                border-bottom: 0.5px solid black;
+                border-left: 0.5px solid black;
+            }
+
+            .table thead tr td {
+                font-weight: bold;
+            }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .header td {
+            width: 50%;
+        }
+
+
+        .title {
+            margin-bottom: 30px;
+        }
+
+
+        .employee-info thead tr {
+            background-color: #f7d59f;
+        }
+
+
+        .timesheet-info thead tr {
+            background-color: #f2ac7c;
+        }
+
+        .timesheet-info tbody tr td {
+            width: 25%;
+        }
+
+
+        .calculate-salary {
+            margin-bottom: 0;
+        }
+
+            .calculate-salary thead tr {
+                background-color: #f77e5e;
+            }
+
+            .calculate-salary tr td {
+                width: 25%;
+            }
+
+        .net-income h2 {
+            font-size: 20px;
+        }
+
+
+        .notes {
+            margin-top: 40px;
+        }
+
+            .notes ul {
+                list-style: none;
+                padding: 0;
+            }
+
+                .notes ul li {
+                    margin-bottom: 5px;
+                    padding: 0 0 0 15px;
+                    position: relative;
+                }
+
+                    .notes ul li::before {
+                        content: "-";
+                        position: absolute;
+                        left: 0;
+                        top: -2px;
+                    }
+
+            .notes h3 {
+                font-size: 16px;
+                margin-top: 30px;
+            }
+
+            .notes hr {
+                border-style: dotted;
+                margin: 30px 0;
+                border-bottom: none;
+            }
+    </style>
+</head>
+
+<body>
+    <table class="header">
+        <tr>
+            <td>Kính gửi Anh/ Chị- <i>To Mr./ Mrs. </i></td>
+            <td rowspan="3" style="text-align: right;vertical-align: top;">
+                <img alt=""
+                     src="https://www.orientsoftware.net/Themes/OrientSoftwareTheme/Content/Images/header/osd-logo-black.png">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Phòng nhân sự xin gửi đến Anh/ Chị thông tin về Lương và Thu nhập - <i>
+                    HR Dept would like to send you
+                    the payslip information
+                </i>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+
+    <table class="title">
+        <tr>
+            <td class="text-center">
+                <h1>BẢNG LƯƠNG - PAYSLIP</h1>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center">Tháng- Năm/ <i>Month- Year</i></td>
+        </tr>
+    </table>
+
+    <table class="table employee-info">
+        <thead>
+            <tr>
+                <td colspan="6">
+                    <h2>Thông tin nhân viên/ <i>Employee information</i></h2>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="width:1%;white-space: nowrap;">Mã nhân viên/ <i>Employee code</i></td>
+                <td style="width:100px;">@Model.Id</td>
+                <td style="width:1%;white-space: nowrap;">Họ và tên/ <i>Fullname</i></td>
+                <td>@Model.FullName</td>
+                <td style="width:1%;white-space: nowrap;">Bộ phận- Nhóm/<i> Dept-Team</i></td>
+                <td>@Model.DeptTeam</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table timesheet-info">
+        <thead>
+            <tr>
+                <td colspan="4">
+                    <h2>Thông tin chấm công/ <i>Working timesheet information</i></h2>
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ngày công chuẩn/ <i>Standard working day</i></td>
+                <td>@Model.StandardWorkingDay</td>
+                <td>Phép năm còn lại/ <i>Leave balance</i></td>
+                <td>@Model.LeaveBalance</td>
+            </tr>
+            <tr>
+                <td>Ngày công thực tế/ <i>Actual working day</i></td>
+                <td>@Model.ActualWorkingDay</td>
+                <td>Nghỉ lễ/ <i>Holidays</i></td>
+                <td>@Model.Holidays</td>
+            </tr>
+            <tr>
+                <td>Ngày nghỉ không tính lương/ <i>Unpaid leave</i></td>
+                <td>@Model.UnpaidLeave</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table calculate-salary">
+        <thead>
+            <tr>
+                <td colspan="2">
+                    <h2>A. Tổng thu nhập/ <i>Total gross income</i> = (3+4+5+6)</h2>
+                </td>
+                <td colspan="2" class="text-right">@Model.ActuaSalary + @Model.Allowance + @Model.IncomeOther + @Model.OtherDeductions</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. Lương căn bản/ <i>Basic salary</i></td>
+                <td class="text-right">@Model.BasicSalary</td>
+                <td><strong>5. Các khoản thu nhập khác/ <i>Other income</i></strong></td>
+                <td class="text-right"><strong>@Model.IncomeOther</strong></td>
+            </tr>
+            <tr>
+                <td rowspan="2">2. Lương gộp/ <i>Gross salary</i></td>
+                <td rowspan="2" class="text-right">@Model.GrossSalary</td>
+                <td>- Thưởng/ <i>Bonus</i></td>
+                <td class="text-right">@Model.Bonus</td>
+            </tr>
+            <tr>
+                <td>- Lương tháng 13/ <i>13th salary</i></td>
+                <td class="text-right">@Model.Salary13Th</td>
+            </tr>
+            <tr>
+                <td><strong>3. Lương theo ngày công/ <i>Actual salary</i></strong></td>
+                <td class="text-right"><strong>@Model.ActuaSalary</strong></td>
+                <td>- Các khoản khác/ Others</td>
+                <td class="text-right">xxx</td>
+            </tr>
+            <tr>
+                <td><strong>4. Phụ cấp/ <i>Allowance</i></strong></td>
+                <td class="text-right"><strong>@Model.Allowance</strong></td>
+                <td><strong>6. Các khoản thu lại khác/ <i>Other deductions</i></strong></td>
+                <td class="text-right"><strong>@Model.OtherDeductions</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table calculate-salary">
+        <thead>
+            <tr>
+                <td colspan="2">
+                    <h2>B. Các khoản khấu trừ/ <i>Deductions</i> = (1+3)</h2>
+                </td>
+                <td colspan="2" class="text-right">@Model.Insurance + @Model.PersonalIncomeTax</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>1. Bảo hiểm/ <i>Insurance</i> = (1.1+1.2+1.3)</strong></td>
+                <td class="text-right"><strong>@Model.Insurance</strong></td>
+                <td>2. Số người phụ thuộc/ <i>No of dependants</i></td>
+                <td class="text-right">@Model.NoOfDependants</td>
+            </tr>
+            <tr>
+                <td>1.1 BHXH/ <i>Social insurance</i> (8%)</td>
+                <td class="text-right">@Model.SocialInsurance</td>
+                <td><strong>3. Thuế TNCN/ <i>Personal income tax </i></strong></td>
+                <td class="text-right"><strong>@Model.PersonalIncomeTax</strong></td>
+            </tr>
+            <tr>
+                <td>1.2 BHYT/ <i>Health insurance</i> (1.5%)</td>
+                <td class="text-right">@Model.HealthInsurance</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>1.3 BHTN/ <i>Unemployment insurance</i> (1%)</td>
+                <td class="text-right">@Model.UnemploymentInsurance</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table calculate-salary">
+        <thead>
+            <tr>
+                <td colspan="2">
+                    <h2>C. Các khoản thanh toán khác/ <i>Other payment</i> = (1+2+3)</h2>
+                </td>
+                <td colspan="2" class="text-right">@Model.PaymentFromSocialInsurance + @Model.PaymentOther + @Model.FinalizationOfPIT</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <strong>
+                        1. Khoản thanh toán từ bảo hiểm/ <i>
+                            Payment from social insurance, premium
+                            insurance
+                        </i>
+                    </strong>
+                </td>
+                <td class="text-right"><strong>@Model.PaymentFromSocialInsurance</strong></td>
+                <td><strong>3. Quyết toán thuế TNCN/ <i>Finalization of PIT</i></strong></td>
+                <td class="text-right"><strong>@Model.FinalizationOfPIT</strong></td>
+            </tr>
+            <tr>
+                <td><strong>2. Các khoản thanh toán khác/ <i>Others</i></strong></td>
+                <td class="text-right"><strong>@Model.PaymentOther</strong></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table calculate-salary net-income">
+        <thead>
+            <tr>
+                <td style="padding-top:10px; padding-bottom: 10px;" colspan="2">
+                    <h2>D. Thu nhập thực nhận/ <i>Net income</i> = (A-B+C)</h2>
+                </td>
+                <td style="padding-top:10px; padding-bottom: 10px;" colspan="2" class="text-right">@Model.NetIncome</td>
+            </tr>
+        </thead>
+    </table>
+
+    <div class="notes">
+        <h2 style="font-weight:900;">Ghi chú/ <i>Notes:</i></h2>
+        <h3>Ghi chú chung/ <i>General notes:</i></h3>
+        <ul>
+            <li>
+                Thu nhập không chịu thuế: tiền hoàn thuế hàng năm, tiền chi hộ chế độ BHXH/ <i>
+                    Non-taxable income:
+                    refund of personal income tax, payment of social insuance.
+                </i>
+            </li>
+            <li>
+                Các khoản thu khác: tiền bồi thường chi phí đào tạo, nộp thuế bổ sung/ <i>
+                    Other receivables: training
+                    fee compensation, additional tax payment.
+                </i>
+            </li>
+            <li>
+                Phụ cấp: khuyến học, trainer, chứng chỉ Microsoft, internet/ <i>
+                    Allowance: study promotion, trainer,
+                    Microsoft certification, internet.
+                </i>
+            </li>
+            <li>
+                Nộp BHXH, BHYT, BHTN: 10,5% lương căn bản/ <i>
+                    Social insurance, health insurance, unemployment
+                    insurance: 10,5% basic salary.
+                </i>
+            </li>
+        </ul>
+
+        <h3>Ghi chú cá nhân/ <i>Individual notes:</i></h3>
+        <hr>
+        <hr>
+        <hr>
+        <hr>
+
+        <h3>Lưu ý/ <i>Notice:</i></h3>
+        <ul>
+            <li>
+                Mọi vấn đề liên quan đến tiền lương, ngày công và các phúc lợi khác, vui lòng gửi email cho Phòng Nhân
+                Sự trong vòng 5 ngày kể từ ngày nhận lương để
+                được giải đáp/ <i>
+                    Any questions about salary, working day and other benefits, please write an email to
+                    HR department within 5 days from received salary for
+                    more details.
+                </i>
+            </li>
+            <li>Thông tin về lương phải được bảo mật/ <i>Information from salary is confidential</i></li>
+        </ul>
+
+        <h3>Trân trọng/ <i>Regards</i></h3>
+    </div>
+</body>
+
+</html>

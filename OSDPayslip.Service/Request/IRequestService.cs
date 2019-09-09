@@ -15,7 +15,6 @@ namespace OSDPayslip.Service.Request
         IEnumerable<RequestDetailViewModel> GetAllById(int id);
         RequestDetailViewModel GetById(int id);
         void Save();
-        void UpdateNoOfDeployee(int n, int id);
-        int CreateNewRequest(int month);
+        int CreateNewRequest(int month, int count);
     }
 }

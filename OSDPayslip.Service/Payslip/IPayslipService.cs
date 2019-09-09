@@ -21,9 +21,10 @@ namespace OSDPayslip.Service.Payslip
 
         void Save();
 
-        int HandleExcelFile(FileInfo fileInfo,int requestId);
+        void HandleExcelFile(FileInfo fileInfo, int requestId);
 
         void MoveFile(IFormFile file, string webRoot, string Month);
         IEnumerable<PayslipDetailViewModel> GetAllByRequestId(int id);
+        int CountNoOfEmployee(FileInfo fileInfo);
     }
 }

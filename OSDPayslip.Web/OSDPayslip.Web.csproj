@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.HttpsPolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
@@ -17,6 +18,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Azure.WebJobs" Version="3.0.12" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,12 +29,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Upload\Apr_Aug_Data_Payslip.xlsx" />
+    <None Include="wwwroot\Upload\Aug_Aug_Data_Payslip.xlsx" />
+    <None Include="wwwroot\Upload\Feb_Aug_Data_Payslip.xlsx" />
+    <None Include="wwwroot\Upload\Jan_Data_Payslip.xlsx" />
+    <None Include="wwwroot\Upload\July_Aug_Data_Payslip.xlsx" />
+    <None Include="wwwroot\Upload\Jun_Data_Payslip.xlsx" />
+    <None Include="wwwroot\Upload\Mar_Aug_Data_Payslip.xlsx" />
+    <None Include="wwwroot\Upload\Nov_Aug_Data_Payslip.xlsx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OSDPayslip.Application\OSDPayslip.Application.csproj" />
     <ProjectReference Include="..\OSDPayslip.Common\OSDPayslip.Common.csproj" />
     <ProjectReference Include="..\OSDPayslip.Data\OSDPayslip.Data.csproj" />
     <ProjectReference Include="..\OSDPayslip.Models\OSDPayslip.Models.csproj" />
     <ProjectReference Include="..\OSDPayslip.Service\OSDPayslip.Service.csproj" />
     <ProjectReference Include="..\OSDPayslip.UnitTest\OSDPayslip.UnitTest.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\PDF\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -97,7 +97,18 @@ namespace OSDPayslip.Service.Payslip
             }
         }
 
-        public int HandleExcelFile(FileInfo fileInfo, int requestId)
+        public int CountNoOfEmployee(FileInfo fileInfo)
+        {
+            int rowCount = 0;
+            using (ExcelPackage excel = new ExcelPackage(fileInfo))
+            {
+                ExcelWorksheet worksheet = excel.Workbook.Worksheets[1];
+                rowCount = worksheet.Dimension.Rows;
+            }
+            return rowCount - 6;
+        }
+
+        public void HandleExcelFile(FileInfo fileInfo, int requestId)
         {
             int rowCount = 0;
             using (ExcelPackage excel = new ExcelPackage(fileInfo))
@@ -144,23 +155,28 @@ namespace OSDPayslip.Service.Payslip
                         EmployeeID = e.Id,
                         RequestID = requestId
                     };
-                    var employee = _mapper.Map<EmployeeViewModel, Employee>(e);
-                    if (_employeeReponsitory.FindAll().Where(x => x.Id == employee.Id) != null)
+                    try
                     {
-                        _employeeReponsitory.Remove(employee);
+                        var employee = _mapper.Map<EmployeeViewModel, Employee>(e);
+                        if (_employeeReponsitory.FindAll().Where(x => x.Id == employee.Id) != null)
+                        {
+                            _employeeReponsitory.Update(employee);
+                        }
+                        else
+                        {
+                            _employeeReponsitory.Add(employee);
+                        }
+                        _employeeReponsitory.Commit();
+                        var payslip = _mapper.Map<PayslipDetailViewModel, PayslipDetail>(payslipDetailViewModel);
+                        _payslipDetailReponsitory.Add(payslip);
+                        _payslipDetailReponsitory.Commit();
                     }
-                    _employeeReponsitory.Add(employee);
-                    _employeeReponsitory.Commit();
-                    var payslip = _mapper.Map<PayslipDetailViewModel, PayslipDetail>(payslipDetailViewModel);
-                    if(_payslipDetailReponsitory.FindAll().Where(x=>x.RequestID == payslip.RequestID) != null)
+                    catch (Exception ex)
                     {
-                        _payslipDetailReponsitory.Remove(payslip);
+                        throw ex;
                     }
-                    _payslipDetailReponsitory.Add(payslip);
-                    _payslipDetailReponsitory.Commit();
                 }
             }
-            return rowCount;
         }
     }
 }

@@ -1,113 +1,44 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using OSDPayslip.Application.Reponsitories;
+using OSDPayslip.Application.Reponsitories.Interfaces;
+using OSDPayslip.Models.Models;
 using OSDPayslip.Models.ViewModels;
-using OSDPayslip.Service.Payslip;
-using OSDPayslip.Service.Request;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 
-namespace OSDPayslip.Web.Controllers
+namespace OSDPayslip.Service.Employees
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RequestDetailController : Controller
+    public class EmployeeService : IEmployeeService
     {
-        private readonly IRequestService _requestService;
-        private readonly IPayslipService _payslipService;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IEmployeeReponsitory _employeeReponsitory;
+        private readonly Mapper _mapper;
 
-        public RequestDetailController(IRequestService requestService, IHostingEnvironment hostingEnvironment, IPayslipService payslipService)
+        public EmployeeService(IEmployeeReponsitory employeeReponsitory, Mapper mapper)
         {
-            _requestService = requestService;
-            _hostingEnvironment = hostingEnvironment;
-            _payslipService = payslipService;
+            _employeeReponsitory = employeeReponsitory;
+            _mapper = mapper;
         }
 
-        // GET: api/RequestDetail
-        [HttpGet]
-        public ActionResult<IEnumerable<RequestDetailViewModel>> GetRequestDetail()
+        public EmployeeViewModel Add(EmployeeViewModel vm)
         {
-            return _requestService.GetAll().ToList();
+            var temp = _mapper.Map<EmployeeViewModel, Employee>(vm);
+            _employeeReponsitory.Add(temp);
+            return vm;
+        }
+        public EmployeeViewModel GetById(string id)
+        {
+            var temp = _employeeReponsitory.FindById(id);
+            return _mapper.Map<Employee, EmployeeViewModel>(temp);
         }
 
-        [HttpPost]
-        [Route("create")]
-        public ActionResult ReadExcelFile()
+        public int GetNumber()
         {
-            try
-            {
-                var file = Request.Form.Files[0];
-                var month = Request.Form["Month"];
-                string[] months = new string[] { "Jan", "Feb", "Mar", "Apr",
-                       "May", "Jun", "July", "Aug",
-                    "Sep", "Oct", "Nov", "Dec" };
-                string webRootPath = _hostingEnvironment.WebRootPath;
-                var requestId = _requestService.CreateNewRequest(Convert.ToInt32(month));
-                _payslipService.MoveFile(file, webRootPath, months[Convert.ToInt32(month) - 1]);
-
-                string fileName = months[Convert.ToInt32(month) - 1] + "_" + ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                string filePath = @".\wwwroot\Upload\";
-                FileInfo fileInfo = new FileInfo(Path.Combine(filePath, fileName));
-                var noOfEmployee = _payslipService.HandleExcelFile(fileInfo, requestId);
-
-                _requestService.UpdateNoOfDeployee(noOfEmployee, requestId);
-                return Json("Upload Successful.");
-            }
-            catch (System.Exception ex)
-            {
-                return Json("Upload Failed: " + ex.Message);
-            }
+            return _employeeReponsitory.FindAll().ToList().Count();
         }
-
-        // GET: api/RequestDetail/5
-        [HttpGet("{id}")]
-        public ActionResult<IEnumerable<RequestDetailViewModel>> GetRequestDetail(int id)
-        {
-            var requestDetail = _requestService.GetAllById(id).ToList();
-
-            if (requestDetail == null)
-            {
-                return NotFound();
-            }
-
-            return requestDetail;
-        }
-
-        // POST: api/RequestDetail
-        [HttpPost]
-        public ActionResult<RequestDetailViewModel> PostRequestDetail(RequestDetailViewModel requestDetail)
-        {
-            _requestService.Add(requestDetail);
-            _requestService.Save();
-            return CreatedAtAction("GetRequestDetail", new { id = requestDetail.Id }, requestDetail);
-        }
-
-        // DELETE: api/RequestDetail/5
-        [HttpDelete("{id}")]
-        public ActionResult<RequestDetailViewModel> DeleteRequestDetail(int id)
-        {
-            var requestDetail = _requestService.GetById(id);
-            if (RequestDetailExists(id) == false)
-            {
-                return NotFound();
-            }
-
-            _requestService.Delete(id);
-            _requestService.Save();
-            return requestDetail;
-        }
-
-        private bool RequestDetailExists(int id)
-        {
-            var requestDetail = _requestService.GetById(id);
-            if (requestDetail != null)
-            {
-                return true;
-            }
-            return false;
-        }
+        //public List<EmployeeViewModel> GetAll()
+        //{
+        //    var temp = _employeeReponsitory.FindAll();
+        //    return _mapper.Map<Employee,  EmployeeViewModel> (temp);
+        //}
     }
 }

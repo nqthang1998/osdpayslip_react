@@ -7,5 +7,6 @@ namespace OSDPayslip.Service.Employees
         EmployeeViewModel Add(EmployeeViewModel vm);
         EmployeeViewModel GetById(string id);
         int GetNumber();
+        //EmployeeViewModel GetAll();
     }
 }
