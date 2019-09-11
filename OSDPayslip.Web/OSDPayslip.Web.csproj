@@ -29,17 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\Upload\Apr_Aug_Data_Payslip.xlsx" />
-    <None Include="wwwroot\Upload\Aug_Aug_Data_Payslip.xlsx" />
-    <None Include="wwwroot\Upload\Feb_Aug_Data_Payslip.xlsx" />
-    <None Include="wwwroot\Upload\Jan_Data_Payslip.xlsx" />
-    <None Include="wwwroot\Upload\July_Aug_Data_Payslip.xlsx" />
-    <None Include="wwwroot\Upload\Jun_Data_Payslip.xlsx" />
-    <None Include="wwwroot\Upload\Mar_Aug_Data_Payslip.xlsx" />
-    <None Include="wwwroot\Upload\Nov_Aug_Data_Payslip.xlsx" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\OSDPayslip.Application\OSDPayslip.Application.csproj" />
     <ProjectReference Include="..\OSDPayslip.Common\OSDPayslip.Common.csproj" />
     <ProjectReference Include="..\OSDPayslip.Data\OSDPayslip.Data.csproj" />
@@ -50,6 +39,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\PDF\" />
+    <Folder Include="wwwroot\Upload\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

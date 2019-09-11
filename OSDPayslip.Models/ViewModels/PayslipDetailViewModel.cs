@@ -28,7 +28,6 @@ namespace OSDPayslip.Models.ViewModels
 
         // III.Deductions
         //
-        public double? Insurance { get; set; }
 
         public double? SocialInsurance { get; set; }
         public double? HealthInsurance { get; set; }

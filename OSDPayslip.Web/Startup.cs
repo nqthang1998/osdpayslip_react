@@ -75,7 +75,7 @@ namespace OSDPayslip.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+            app.UseCors(builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -90,7 +90,7 @@ namespace OSDPayslip.Web
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseCors(
-                   options => options.WithOrigins("http://localhost:4200").AllowAnyMethod()
+                   options => options.WithOrigins("http://localhost:3000").AllowAnyMethod()
                );
             app.UseMvc(routes =>
             {

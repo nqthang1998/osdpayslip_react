@@ -62,7 +62,6 @@ namespace OSDPayslip.Service.HandlePdf
                         Salary13Th = item.Salary13Th,
                         IncomeOther = item.IncomeOther,
                         OtherDeductions = item.OtherDeductions,
-                        Insurance = item.Insurance,
                         SocialInsurance = item.SocialInsurance,
                         HealthInsurance = item.HealthInsurance,
                         UnemploymentInsurance = item.UnemploymentInsurance,

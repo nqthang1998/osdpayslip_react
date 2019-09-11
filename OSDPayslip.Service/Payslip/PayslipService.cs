@@ -158,15 +158,11 @@ namespace OSDPayslip.Service.Payslip
                     try
                     {
                         var employee = _mapper.Map<EmployeeViewModel, Employee>(e);
-                        if (_employeeReponsitory.FindAll().Where(x => x.Id == employee.Id) != null)
-                        {
-                            _employeeReponsitory.Update(employee);
-                        }
-                        else
+                        if (_employeeReponsitory.FindById(employee.Id).FullName == "")
                         {
                             _employeeReponsitory.Add(employee);
+                            _employeeReponsitory.Commit();
                         }
-                        _employeeReponsitory.Commit();
                         var payslip = _mapper.Map<PayslipDetailViewModel, PayslipDetail>(payslipDetailViewModel);
                         _payslipDetailReponsitory.Add(payslip);
                         _payslipDetailReponsitory.Commit();

@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 class PayslipReport extends Component {
-    constructor(props){
-        super(props); 
-       this.state={
-           Id :'123',
-           Fullname :'Phạm Ngọc Du',
-           Group : 'Intership'
-       }
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            request : []
+        };
     }
+
     render() {
+
         return (
-            <div className="PaylistRe">
+            <div className="PaylistReport">
                 <table className="header">
                     <tbody><tr>
                         <td>Kính gửi Anh/ Chị- <i>To Mr./ Mrs. </i></td>

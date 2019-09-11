@@ -27,7 +27,6 @@ namespace OSDPayslip.Models.Models
         public double? OtherDeductions { get; set; }
         // III.Deductions
         //
-        public double? Insurance { get; set; }
         public double? SocialInsurance { get; set; }
         public double? HealthInsurance { get; set; }
         public double? UnemploymentInsurance { get; set; }
