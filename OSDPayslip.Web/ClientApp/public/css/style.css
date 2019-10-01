@@ -1,0 +1,320 @@
+.title {
+    font-size: 36px;
+    color: black;
+    font: bold;
+    text-align: center;
+    padding-bottom: 100px;
+}
+.table-name {
+    width: 72vw;
+    height: 120px;
+    text-align: center;
+    background-color: white;
+    border: solid 1px lightgray;
+}
+.table-name th {
+    font-size: 14px;
+    color: black;
+    text-align: center;
+}
+.return{
+    background-color: #fbfbfb;
+    color: black;
+    border: 0px;
+    width: 40px;
+    margin-top: 10px;
+    font-size: 16px;
+    margin-left: 10px;
+}
+.return:hover{
+    background-color: #ffffff;
+    color:black;
+    font-style: italic;
+}
+.delete-request{
+    float: left;
+    width: 180px;
+    margin-left: 200px;
+    margin-top: -31px;
+    position: absolute;
+    text-decoration: underline;
+}
+
+.delete-request button:disabled,
+button[disabled] {
+    background-color:#8a8a8a;
+}
+.back-home{
+    margin-right: 20px;
+    float: left;
+    margin-top: 15px;
+    position: absolute;
+    }
+table td {
+    font-size: 14px;
+    line-height: 14px;
+}
+.find {
+    float: right;
+    width: 210px;
+    margin-top: -40px;
+}
+.searchbydate {
+    float: right;
+    width: 210px;
+}
+.backtohome {
+    float: left;
+    width: 210px;
+}
+.send {
+    float: left;
+    width: 210px;
+    text-decoration: underline;
+}
+.list {
+    text-align: center;
+}
+body {
+    padding: 50px;
+    font-family: "Sarabun", sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+}
+h1,
+h2,
+strong {
+    font-weight: 700;
+}
+h1 {
+    font-size: 50px;
+    margin-bottom: 0;
+}
+h2 {
+    font-size: 16px;
+    margin: 0;
+}
+table {
+    width: 100%;
+    border-spacing: 0;
+    margin-bottom: 30px;
+}
+table td {
+    vertical-align: middle;
+    padding: 5px 15px;
+}
+.table {
+    border-right: 0.5px solid black;
+}
+.table thead td {
+    border-left: 0.5px solid black;
+    border-top: 0.5px solid black;
+    border-bottom: 0.5px solid black;
+}
+.table thead td:last-of-type {
+    border-right: 0.5px solid black;
+}
+.table tbody td {
+    border-bottom: 0.5px solid black;
+    border-left: 0.5px solid black;
+}
+.table thead tr td {
+    font-weight: bold;
+}
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: center;
+    width: 100px;
+}
+.header td {
+    width: 50%;
+}
+
+.title {
+    margin-bottom: 30px;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.employee-info thead tr {
+    background-color: #f7d59f;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.timesheet-info thead tr {
+    background-color: #f2ac7c;
+    font-family: Arial, Helvetica, sans-serif
+}
+.timesheet-info tbody tr td {
+    width: 15px;
+    font-family: Arial, Helvetica, sans-serif
+}
+
+.calculate-salary {
+    margin-bottom: 0;
+}
+.calculate-salary thead tr {
+    background-color: #f77e5e;
+}
+.calculate-salary tr td {
+    font-family: Arial, Helvetica, sans-serif;
+}
+.net-income h2 {
+    font-size: 20px;
+}
+
+.notes {
+    margin-top: 40px;
+}
+.notes ul {
+    list-style: none;
+    padding: 0;
+}
+.notes ul li {
+    margin-bottom: 5px;
+    padding: 0 0 0 15px;
+    position: relative;
+}
+.notes ul li::before {
+    content: "-";
+    position: absolute;
+    left: 0;
+    top: -2px;
+}
+.notes h3 {
+    font-size: 16px;
+    margin-top: 30px;
+}
+.notes hr {
+    border-style: dotted;
+    margin: 30px 0;
+    border-bottom: none;
+}
+
+input[type="file"] {
+    font-size: small !important;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.ms-Button.ms-Button--primary.is-disabled, .ms-Button.ms-Button--primary:disabled {
+    cursor: not-allowed;
+}
+
+.ms-Table-cell {
+    cursor: default;
+}
+
+.ms-Table-row {
+    cursor: default;
+}
+
+.css-2b097c-container {
+    font-size: medium !important;
+}
+.Dropdown {
+    width: 239px;
+    height: 30px;
+    line-height: 40px;
+    font-size: medium;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.Dropdown1 {
+    width: 210px;
+    height: 30px;
+    line-height: 40px;
+    font-size: medium;
+    font-weight: bold;
+
+    position: absolute;
+    margin-left: -30px;
+}
+.Dropdown-option {
+    height: 50px;
+    margin-bottom: 100px;
+    font-size: small;
+}
+.header-color {
+    /* max-width: 100%; */
+    height: 130px;
+    background-size: 100%;
+    background-color: #f2ac7c;
+}
+.header-size {
+    width: 100%;
+}
+.new-create{
+    background-color: grey;
+}
+.new {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 7px;
+}
+.create-search {
+    position: absolute;
+}
+.open {
+    background-color: #fbfbfb;
+    font-size: 30px;
+    color: black;
+    border: 0px;
+}
+
+.open:hover {
+    background-color: #ffffff;
+    color: blue;
+    font-style: italic;
+}
+
+.preview {
+    background-color: #fbfbfb;
+    color: black;
+    border: 0px;
+}
+
+.preview:hover {
+    background-color: #ffffff;
+    color: blue;
+    font-style: italic;
+}
+.Dropdown-Label {
+    position: absolute;
+    margin-top: 20px;
+}
+
+.EmployeeList {
+    position: relative;
+}
+.EmployeeList h1 {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 42px;
+}
+.PayslipList {
+    position: absolute;
+    margin-top: 10px;
+}
+.PayslipList-title {
+    position: relative;
+}
+.PayslipList-title h1 {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 42px;
+}
+.PaylistReport {
+    /* margin-right: 200px; */
+    width: 80%;
+    height: 35%;
+    margin-left: 120px;
+    margin-top: 30px;
+}
+.status {
+    font-size: 14px;
+}
+
