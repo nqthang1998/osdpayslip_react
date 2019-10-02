@@ -11,28 +11,12 @@ import {
     DefaultButton
 } from "office-ui-fabric-react/lib/Button";
 
-import { UserAgentApplication } from "msal";
-import { getUserDetails } from "../../../../Services/GraphService";
-import config from "../../../../Services/Config";
 
 class ButtonDialog extends React.Component {
     constructor(props) {
         super(props);
 
-        this.userAgentApplication = new UserAgentApplication({
-            auth: {
-                clientId: config.appId
-            },
-            cache: {
-                cacheLocation: "localStorage",
-                storeAuthStateInCookie: true
-            }
-        });
-
-        var user = this.userAgentApplication.getAccount();
-
         this.state = {
-            user: user,
             hideDialog: true,
             file: null,
             message: "",
@@ -40,10 +24,6 @@ class ButtonDialog extends React.Component {
             userName: ""
         };
 
-        if (user) {
-            // Enhance user object with data from Graph
-            this.getUserProfile();
-        }
     }
 
     componentDidMount() {
@@ -65,18 +45,15 @@ class ButtonDialog extends React.Component {
     fileUpload(e) {
         let file = this.state.file;
         if(file !== null) {
-            console.log(file.name);
-            console.log(this.state.sltMonth);
             const formData = new FormData();
             formData.append(file.name, file);
             formData.append("Month", this.state.sltMonth.toString());
-            formData.append("CreatedBy", this.state.user.displayName);
+            formData.append("CreatedBy", this.state.userName);
             axios({
                 method: "POST",
                 url: "https://localhost:44304/api/RequestDetail/create",
                 data: formData
             }).then(res => {
-                console.log(res);
             });
             alert("Your Request has been created Successfully !!!");
             window.location.reload();
@@ -95,14 +72,11 @@ class ButtonDialog extends React.Component {
 
     DeleteRequest() {
         var deleteRequest = this.props.data.deleteRequest;
-        console.log("deleteRequest= ", deleteRequest);
-        console.log(deleteRequest[0].Id);
         for (var i = 0; i < deleteRequest.length; i++) {
             axios({
                 method: "DELETE",
                 url: `https://localhost:44304/api/RequestDetail/${deleteRequest[i].Id}`
             }).then(res => {
-                console.log(res);
             });
         }
     }
@@ -126,61 +100,11 @@ class ButtonDialog extends React.Component {
         this.setState({ hideDialog: true });
     };
 
-    async getUserProfile() {
-        try {
-            // Get the access token silently
-            // If the cache contains a non-expired token, this function
-            // will just return the cached token. Otherwise, it will
-            // make a request to the Azure OAuth endpoint to get a token
-
-            var accessToken = await this.userAgentApplication.acquireTokenSilent(
-                {
-                    scopes: config.scopes
-                }
-            );
-
-            if (accessToken) {
-                this.setState({
-                    accessToken: accessToken.accessToken
-                });
-                // Get the user's profile from Graph
-                var user = await getUserDetails(accessToken);
-                this.setState({
-                    isAuthenticated: true,
-                    user: {
-                        displayName: user.displayName,
-                        email: user.mail || user.userPrincipalName
-                    },
-                    error: null
-                });
-            }
-        } catch (err) {
-            var error = {};
-            if (typeof err === "string") {
-                var errParts = err.split("|");
-                error =
-                    errParts.length > 1
-                        ? { message: errParts[1], debug: errParts[0] }
-                        : { message: err };
-            } else {
-                error = {
-                    message: err.message,
-                    debug: JSON.stringify(err)
-                };
-            }
-
-            this.setState({
-                isAuthenticated: false,
-                user: {},
-                error: error
-            });
-        }
-    }
-
     render() {
-        console.log(this.state.userName);
+        if(this.state.userName === undefined) {
+            window.location.reload();
+        }
         var deleteRequest = this.props.data.deleteRequest;
-        console.log(deleteRequest);
         return (
             <div className="find">
                 <DefaultButton
@@ -189,7 +113,7 @@ class ButtonDialog extends React.Component {
                     onClick={this.showDialog}
                 >
                     <div style={{ color: "#fff" }}>
-                        <i class="fas fa-plus-circle"></i> Create New Request
+                        <i className="fas fa-plus-circle"></i> Create New Request
                     </div>
                 </DefaultButton>
 
@@ -200,7 +124,7 @@ class ButtonDialog extends React.Component {
                         disabled={deleteRequest.length > 0 ? false : true}
                     >
                         <div style={{ color: "#fff" }}>
-                        <i class="fas fa-trash-alt"></i> Delete Request
+                        <i className="fas fa-trash-alt"></i> Delete Request
                         </div>
                     </DefaultButton>
                 </div>

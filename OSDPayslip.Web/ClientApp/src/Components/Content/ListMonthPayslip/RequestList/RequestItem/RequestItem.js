@@ -7,14 +7,14 @@ class RequestItem extends Component {
         this.state = {
             request: this.props.data.request,
             oldRequest: this.props.data.oldRequest,
-            parentCheckbox: this.props.data.parentCheckbox,
+            parentCheckbox: this.props.data.parentCheckbox
         };
     }
 
     componentDidMount() {
         this.setState({
             request: this.props.data.request
-        })
+        });
     }
 
     findIndex(requestId) {
@@ -28,45 +28,47 @@ class RequestItem extends Component {
     }
 
     handleCheck = requestId => {
-        console.log(requestId);
-        this.setState({
-            request: this.props.data.request,
-            oldRequest: this.props.data.oldRequest
-        }, () => {
-            console.log(this.state.request);
-            var foundIndex = this.findIndex(requestId);
-            var newRequest = this.state.request;
-            newRequest[foundIndex].isChecked = !newRequest[foundIndex].isChecked;
+        this.setState(
+            {
+                request: this.props.data.request,
+                oldRequest: this.props.data.oldRequest
+            },
+            () => {
+                var foundIndex = this.findIndex(requestId);
+                var newRequest = this.state.request;
+                newRequest[foundIndex].isChecked = !newRequest[foundIndex]
+                    .isChecked;
 
-            this.setState({
-                request: newRequest
-            }, () => {
-                console.log(this.state.request);
-                var request = this.state.request;
-                var oldRequest = this.state.oldRequest;
-                request.map(item => {
-                    oldRequest.map(olditem => {
-                        if (item.Id === olditem.Id) {
-                            olditem = item
-                        }
-                    })
-                })
-                console.log(oldRequest)
-                this.setState({
-                    oldRequest: oldRequest
-                }, () => {
-                    this.props.updateRequest(this.state.oldRequest);
-                })
-
-            })
-            console.log(foundIndex);
-        })
-    }
+                this.setState(
+                    {
+                        request: newRequest
+                    },
+                    () => {
+                        var request = this.state.request;
+                        var oldRequest = this.state.oldRequest;
+                        request.map(item => {
+                            oldRequest.map(olditem => {
+                                if (item.Id === olditem.Id) {
+                                    olditem = item;
+                                }
+                            });
+                        });
+                        this.setState(
+                            {
+                                oldRequest: oldRequest
+                            },
+                            () => {
+                                this.props.updateRequest(this.state.oldRequest);
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    };
 
     render() {
         var req = this.props.data.request;
-        console.log(req);
-        console.log(this.state.request);
         return <React.Fragment>{this.showItem(req)}</React.Fragment>;
     }
     showItem(item) {
@@ -86,39 +88,40 @@ class RequestItem extends Component {
                         </td>
                         <td className="ms-Table-cell">{item.Id}</td>
                         <td className="ms-Table-cell">
-                            {item.CreateDate.slice(8, 10) +
-                                "-" +
-                                item.CreateDate.slice(5, 7) +
-                                "-" +
-                                item.CreateDate.slice(0, 4) +
-                                " | " +
-                                item.CreateDate.slice(11, 16)}
+                            <strong>
+                                {item.CreateDate.slice(8, 10) +
+                                    "-" +
+                                    item.CreateDate.slice(5, 7) +
+                                    "-" +
+                                    item.CreateDate.slice(0, 4)}
+                            </strong>{" "} | {" "}
+                                ({item.CreateDate.slice(11, 16)})
                         </td>
                         <td className="ms-Table-cell">{item.NoOfDeployee}</td>
                         <td className="ms-Table-cell">
                             {item.PayslipForMonth === 1
                                 ? "January"
                                 : item.PayslipForMonth === 2
-                                    ? "February"
-                                    : item.PayslipForMonth === 3
-                                        ? "March"
-                                        : item.PayslipForMonth === 4
-                                            ? "April"
-                                            : item.PayslipForMonth === 5
-                                                ? "May"
-                                                : item.PayslipForMonth === 6
-                                                    ? "June"
-                                                    : item.PayslipForMonth === 7
-                                                        ? "July"
-                                                        : item.PayslipForMonth === 8
-                                                            ? "August"
-                                                            : item.PayslipForMonth === 9
-                                                                ? "September"
-                                                                : item.PayslipForMonth === 10
-                                                                    ? "October"
-                                                                    : item.PayslipForMonth === 11
-                                                                        ? "November"
-                                                                        : "December"}
+                                ? "February"
+                                : item.PayslipForMonth === 3
+                                ? "March"
+                                : item.PayslipForMonth === 4
+                                ? "April"
+                                : item.PayslipForMonth === 5
+                                ? "May"
+                                : item.PayslipForMonth === 6
+                                ? "June"
+                                : item.PayslipForMonth === 7
+                                ? "July"
+                                : item.PayslipForMonth === 8
+                                ? "August"
+                                : item.PayslipForMonth === 9
+                                ? "September"
+                                : item.PayslipForMonth === 10
+                                ? "October"
+                                : item.PayslipForMonth === 11
+                                ? "November"
+                                : "December"}
                         </td>
                         <td className="ms-Table-cell">{item.CreateBy}</td>
                         <td className="ms-Table-cell">
@@ -127,17 +130,17 @@ class RequestItem extends Component {
                                     New
                                 </h3>
                             ) : item.Status === 1 ? (
-                                <h3 className="new" style={{ color: "#B8860B" }}>
+                                <h3
+                                    className="new"
+                                    style={{ color: "#B8860B" }}
+                                >
                                     Partially Sent
                                 </h3>
                             ) : (
-                                        <h3
-                                            className="new"
-                                            style={{ color: "green" }}
-                                        >
-                                            Fully Sent
+                                <h3 className="new" style={{ color: "green" }}>
+                                    Fully Sent
                                 </h3>
-                                    )}
+                            )}
                         </td>
                         <td className="ms-Table-cell">
                             <Link to={`/details/${item.Id}`}>

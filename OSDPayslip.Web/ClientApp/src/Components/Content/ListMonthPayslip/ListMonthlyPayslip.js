@@ -25,8 +25,6 @@ class ListMonthPayslip extends Component {
     }
 
     render() {
-        console.log(this.state.isOpen);
-        console.log("The Employee Id is: " + this.state.Id)
         return (
             <div className="Payslisp">
                 <div className="create-search">

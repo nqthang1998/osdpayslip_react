@@ -11,6 +11,9 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
 import PayslipList from "./Components/Content/ListMonthPayslip/PayslipList/PayslipList";
 import PayslipPreview from "./Components/Content/ListMonthPayslip/PayslipPreview/PayslipPreview";
+import Footer from "./Components/Footer/Footer";
+
+import { ProtectedRoute } from "./Services/protected.route";
 
 class App extends Component {
     constructor(props) {
@@ -43,6 +46,7 @@ class App extends Component {
     }
     render() {
         let error = null;
+        var welcomeBackground = true;
         if (this.state.error) {
             error = (
                 <ErrorMessage
@@ -51,39 +55,66 @@ class App extends Component {
                 />
             );
         }
+        if (this.state.user !== null) {
+            welcomeBackground = false;
+        }
 
         return (
             <React.Fragment>
                 <BrowserRouter>
-                    <NavBar
-                        isAuthenticated={this.state.isAuthenticated}
-                        authButtonMethod={
-                            this.state.isAuthenticated
-                                ? this.logout.bind(this)
-                                : this.login.bind(this)
+                    <div
+                        className={
+                            welcomeBackground === true
+                                ? "welcome-background"
+                                : "default-background"
                         }
-                        user={this.state.user}
-                    />
-                    <Container>
-                        {error}
-                        <Switch>
-                            <Route
-                                exact
-                                path="/"
-                                render={props => (
-                                    <Content
-                                        {...props}
-                                        isAuthenticated={
-                                            this.state.isAuthenticated
-                                        }
-                                        user={this.state.user}
-                                    />
-                                )}
-                            />
-                            <Route path="/details/:requestId" exact component={PayslipList} />
-                            <Route path="/preview/:requestId/:employeeId" exact component={PayslipPreview} />
-                        </Switch>
-                    </Container>
+                    >
+                        <NavBar
+                            isAuthenticated={this.state.isAuthenticated}
+                            authButtonMethod={
+                                this.state.isAuthenticated
+                                    ? this.logout.bind(this)
+                                    : this.login.bind(this)
+                            }
+                            user={this.state.user}
+                        />
+                        <Container className="front-ground">
+                            {error}
+                            <Switch>
+                                <Route
+                                    exact
+                                    path="/"
+                                    render={props => (
+                                        <Content
+                                            {...props}
+                                            isAuthenticated={
+                                                this.state.isAuthenticated
+                                            }
+                                            user={this.state.user}
+                                        />
+                                    )}
+                                />
+                                <ProtectedRoute
+                                    exact
+                                    path="/details/:requestId"
+                                    component={PayslipList}
+                                    isAuthenticated={this.state.isAuthenticated}
+                                />
+                                <ProtectedRoute
+                                    exact
+                                    path="/preview/:requestId/:employeeId"
+                                    component={PayslipPreview}
+                                    isAuthenticated={this.state.isAuthenticated}
+                                />
+                                <Route path="*" component={() => <h1 style={(this.state.isAuthenticated ? { color:"grey" , marginTop: "130px"} : { color:"red" , marginTop: "130px", textShadow: "5px 5px rgba(0,0,0,0.5)"})}>404 NOT FOUND</h1>}/>
+                            </Switch>
+                        </Container>
+                        {welcomeBackground === false ? (
+                            <Footer />
+                        ) : (
+                            <span></span>
+                        )}
+                    </div>
                 </BrowserRouter>
             </React.Fragment>
         );

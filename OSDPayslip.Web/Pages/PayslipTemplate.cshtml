@@ -2,6 +2,24 @@
 @model OSDPayslip.Service.HandlePdf.DTO.InputPdfFile;
 @{
     var Model = Html.ViewData.Model;
+    int day = DateTime.Now.Day;
+    int month = DateTime.Now.Month;
+    int year = DateTime.Now.Year;
+
+    string[] months = new string[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+
+    if (day <= 10)
+    {
+        if (month == 1)
+        {
+            month = 12;
+            year = year - 1;
+        }
+        else {
+            month = month - 1;
+        }
+    }
+
 }
 
 <!DOCTYPE html>
@@ -158,7 +176,7 @@
 <body>
     <table class="header">
         <tr>
-            <td>Kính gửi Anh/ Chị- <i>To Mr./ Mrs. </i>@Model.FullName</td>
+            <td>Kính gửi Anh/ Chị- <i>To Mr./ Mrs. </i><strong>@Model.FullName</strong></td>
             <td rowspan="3" style="text-align: right;vertical-align: top;">
                 <img alt=""
                      src="https://www.orientsoftware.net/Themes/OrientSoftwareTheme/Content/Images/header/osd-logo-black.png">
@@ -184,7 +202,7 @@
             </td>
         </tr>
         <tr>
-            <td class="text-center">Tháng- Năm/ <i>Month- Year</i></td>
+            <td class="text-center">Tháng <strong>@month </strong> - Năm @year/ <i>Month <strong>@months[month - 1]</strong> - Year @year</i></td>
         </tr>
     </table>
 
@@ -377,7 +395,6 @@
     </ul>
 
     <h3>Trân trọng/ <i>Regards</i></h3>
-    </div>
 </body>
 
 </html>

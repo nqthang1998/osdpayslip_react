@@ -3,7 +3,6 @@ import RequestItem from "./RequestItem/RequestItem";
 import axios from "axios";
 
 import { Stack } from "office-ui-fabric-react/lib/Stack";
-import { TextField } from "office-ui-fabric-react/lib/TextField";
 import ButtonDialog from "./ButtonDialog";
 
 class RequestList extends Component {
@@ -23,7 +22,7 @@ class RequestList extends Component {
             url: "https://localhost:44304/api/RequestDetail"
         }).then(res => {
             this.setState({
-                request: res.data
+                request: res.data.reverse()
             });
             this.setState({
                 request: this.state.request.map(item => {
@@ -77,10 +76,10 @@ class RequestList extends Component {
 
     render() {
         const filteredRequest = this.state.request.filter(
-            item => item.PayslipForMonth == this.state.searchField
+            item => item.PayslipForMonth === this.state.searchField
         );
         const deleteRequest = this.state.request.filter(
-            item => item.isChecked == true
+            item => item.isChecked === true
         );
 
         return (
@@ -144,22 +143,19 @@ class RequestList extends Component {
                         </Stack>
                     </div>
 
-                    {this.state.searchField != 0 ? (
                         <button
                             className="ms-Button ms-Button--default"
                             style={{
                                 float: "right",
                                 marginTop: "-40px",
                                 height: "30px",
-                                width: "px"
+                                width: "px",
+                                borderStyle: "solid"
                             }}
                             onClick={this.resetSelected}
                         >
-                            X
+                            <i className="fas fa-window-close fa-2x" style={{width: "50%"}}></i>
                         </button>
-                    ) : (
-                        <span></span>
-                    )}
 
                     <div className="send">
                         <ButtonDialog
@@ -170,8 +166,8 @@ class RequestList extends Component {
                         />
                     </div>
 
-                    <table border="1" className="table-name">
-                        <thead>
+                    <table border="0" className="table-name">
+                        <thead className="thead-row">
                             <tr className="ms-Table-row">
                                 <th className="ms-Table-cell">
                                     <input

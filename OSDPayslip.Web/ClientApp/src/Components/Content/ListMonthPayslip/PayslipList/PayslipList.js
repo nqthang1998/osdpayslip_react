@@ -6,8 +6,9 @@ import { UserAgentApplication } from "msal";
 import config from "../../../../Services/Config";
 import { sendMail } from "../../../../Services/GraphService";
 import PayslipItem from "./PayslipItem/PayslipItem";
-import { DefaultButton } from "office-ui-fabric-react/lib/Button";
-import { Link } from "react-router-dom";
+import {
+    DefaultButton
+} from "office-ui-fabric-react/lib/Button";
 
 class PayslipList extends Component {
     constructor(props) {
@@ -42,28 +43,30 @@ class PayslipList extends Component {
             name: "GET",
             url: `https://localhost:44304/api/RequestDetail/${this.state.requestId.requestId}`
         }).then(res => {
-            this.setState({
-                requestInfo: res.data
-            }, () => {
-                this.forceUpdate();
-            })
-        })
+            this.setState(
+                {
+                    requestInfo: res.data
+                },
+                () => {
+                    this.forceUpdate();
+                }
+            );
+        });
 
         await axios({
             name: "GET",
             url: `https://localhost:44304/api/PayslipDetail/${this.state.requestId.requestId}`
         }).then(res => {
-            console.log(res.data);
             this.setState(
                 {
                     request: res.data
                 },
                 () => {
                     const readyReq = this.state.request.filter(
-                        item => item.Status == 1
+                        item => item.Status === 1
                     );
                     const successReq = this.state.request.filter(
-                        item => item.Status == 2
+                        item => item.Status === 2
                     );
                     if (successReq.length === this.state.request.length) {
                         this.setState(
@@ -125,7 +128,7 @@ class PayslipList extends Component {
                                     }
                                 );
                             }
-                            if (i == statusRequest.length - 1) {
+                            if (i === (statusRequest.length - 1)) {
                                 this.setState({
                                     needDisable: false
                                 });
@@ -185,7 +188,6 @@ class PayslipList extends Component {
             url: "https://localhost:44304/api/PayslipDetail",
             data: formData
         }).then(res => {
-            console.log(res);
         });
     };
 
@@ -226,7 +228,6 @@ class PayslipList extends Component {
                 scopes: config.scopes
             });
             for (let i = 0; i < this.state.request.length; i++) {
-                console.log(this.state.request[i].Email);
                 var response = await sendMail(
                     accessToken,
                     this.state.request[i].Email,
@@ -374,7 +375,6 @@ class PayslipList extends Component {
                 }
             );
         } else {
-            console.log(alertNeeded);
             this.setState(
                 {
                     needDisable: false
@@ -388,7 +388,6 @@ class PayslipList extends Component {
             );
         }
 
-        console.log(this.state.countReady);
     }
 
     async sendMailToTheRest() {
@@ -526,7 +525,6 @@ class PayslipList extends Component {
             method: "DELETE",
             url: `https://localhost:44304/api/PayslipDetail/deletepdf/${this.state.requestId.requestId}`
         }).then(res => {
-            console.log(res);
         });
     }
 
@@ -550,11 +548,8 @@ class PayslipList extends Component {
         );
 
         const sendRequest = this.state.request.filter(
-            item => item.isChecked == true
+            item => item.isChecked === true
         );
-
-        const requestInfo = this.state.requestInfo[0];
-        console.log(this.state.requestInfo[0]);
 
         return (
             <React.Fragment>
@@ -563,17 +558,30 @@ class PayslipList extends Component {
                         <br />
                         <h1>Payslip Details</h1>
                         {this.state.requestInfo.map(item => (
-                        <h3>
-                            Request created in: <strong>{item.CreateDate.slice(8, 10) +
-                                "-" +
-                                item.CreateDate.slice(5, 7) +
-                                "-" +
-                                item.CreateDate.slice(0, 4)}</strong> | By: <strong>{item.CreateBy}</strong> - <strong>{this.state.countSuccess}/
-                            {this.state.request.length}</strong> E-mail has been sent{" "}
-                            <span style={{ color: "green" }}>Successfully</span>
-                            .
-                        </h3>
+                            <h3>
+                                Request created in:{" "}
+                                <strong>
+                                    {item.CreateDate.slice(8, 10) +
+                                        "-" +
+                                        item.CreateDate.slice(5, 7) +
+                                        "-" +
+                                        item.CreateDate.slice(0, 4)}
+                                </strong>{" "}
+                                | By: <i class="fas fa-user"></i> <strong> {item.CreateBy}</strong> -{" "}
+                                <strong>
+                                    {this.state.countSuccess}/
+                                    {this.state.request.length}
+                                </strong>{" "}
+                                E-mail has been sent{" "}
+                                <span style={{ color: "green" }}>
+                                    Successfully
+                                </span>
+                                .
+                            </h3>
                         ))}
+                        <br />
+                        <br />
+                        <br />
                         <div className="searchbydate">
                             <Stack>
                                 <TextField
@@ -593,41 +601,47 @@ class PayslipList extends Component {
                                             )}
                                             disabled={this.state.needDisable}
                                         >
-                                            <div style={{ color: "#fff" }}><i class="far fa-paper-plane"></i> Send</div>
-                                            </DefaultButton>
+                                            <div style={{ color: "#fff" }}>
+                                                <i class="fas fa-paper-plane"></i>{" "}
+                                                Send
+                                            </div>
+                                        </DefaultButton>
                                     </span>
                                 ) : this.state.needResend === true ? (
                                     <DefaultButton
                                         className="ms-Button--primary"
-                                        onClick={this.sendMailToRequested.bind(
-                                            this
-                                        )}
                                         onClick={this.sendMailToTheRest.bind(
                                             this
                                         )}
                                         disabled={this.state.needDisable}
                                     >
-                                        <div style={{ color: "#fff" }}><i class="far fa-paper-plane"></i> Send to the Rest</div>
-                                        </DefaultButton>
+                                        <div style={{ color: "#fff" }}>
+                                            <i class="fas fa-paper-plane"></i>{" "}
+                                            Send to the Rest
+                                        </div>
+                                    </DefaultButton>
                                 ) : (
-                                            <span className="ms-Button-label">
-                                                <DefaultButton
-                                                    className="ms-Button--primary"
-                                                    onClick={this.sendmailToAll.bind(
-                                                        this
-                                                    )}
-                                                    disabled={this.state.needDisable}
-                                                >
-                                                    <div style={{ color: "#fff" }}><i class="far fa-paper-plane"></i> Send All</div>
-                                                </DefaultButton>
-                                            </span>
-                                        )}
+                                    <span className="ms-Button-label">
+                                        <DefaultButton
+                                            className="ms-Button--primary"
+                                            onClick={this.sendmailToAll.bind(
+                                                this
+                                            )}
+                                            disabled={this.state.needDisable}
+                                        >
+                                            <div style={{ color: "#fff" }}>
+                                                <i class="fas fa-paper-plane"></i>{" "}
+                                                Send All
+                                            </div>
+                                        </DefaultButton>
+                                    </span>
+                                )}
                             </button>
                         </div>
 
                         <div>
                             <table border="1" className="table-name">
-                                <thead>
+                                <thead className="thead-row">
                                     <tr className="ms-Table-row">
                                         <th className="ms-Table-cell">
                                             <input
@@ -672,18 +686,18 @@ class PayslipList extends Component {
                                             }}
                                         />
                                     ) : (
-                                            <PayslipItem
-                                                updateRequest={this.updateRequest.bind(
-                                                    this
-                                                )}
-                                                data={{
-                                                    request: filteredRequest,
-                                                    oldRequest: this.state.request,
-                                                    requestId: this.state.requestId
-                                                        .requestId
-                                                }}
-                                            />
-                                        )}
+                                        <PayslipItem
+                                            updateRequest={this.updateRequest.bind(
+                                                this
+                                            )}
+                                            data={{
+                                                request: filteredRequest,
+                                                oldRequest: this.state.request,
+                                                requestId: this.state.requestId
+                                                    .requestId
+                                            }}
+                                        />
+                                    )}
                                 </tbody>
                             </table>
                         </div>
